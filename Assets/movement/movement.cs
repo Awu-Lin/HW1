@@ -7,6 +7,8 @@ public class movement : MonoBehaviour
 {
     public float moveSpeed = 1f; //speed
     private bool isMoving = false; // not yet move
+
+
     // Start is called before the first frame update
 
     // Update is called once per frame
@@ -21,6 +23,12 @@ public class movement : MonoBehaviour
         if (isMoving)
         {
             transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            var component = transform.GetComponent<Rigidbody2D>();
+            component.AddForce(new Vector2(0,10), ForceMode2D.Impulse);
         }
     }
 }
