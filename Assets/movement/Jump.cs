@@ -5,9 +5,9 @@ using UnityEngine;
 public class Jump : MonoBehaviour
 {
     public float moveSpeed = 1f;      
-    public float jumpSpeed = 2f;     
+    public float jumpSpeed = 2f;      
     public Vector3 initialPosition;   
-
+    private bool isMoving = false;   
     private Rigidbody rb;
 
     void Start()
@@ -15,6 +15,7 @@ public class Jump : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         initialPosition = transform.position;  
         rb.freezeRotation = true;
+        rb.velocity = Vector3.zero;  
     }
 
     void Update()
@@ -27,7 +28,10 @@ public class Jump : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector3(moveSpeed, rb.velocity.y, 0); 
+        if (isMoving)
+        {
+            rb.velocity = new Vector3(moveSpeed, rb.velocity.y, 0);  
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,11 +41,17 @@ public class Jump : MonoBehaviour
             ResetBall();
         }
     }
+
     private void ResetBall()
     {
-        rb.velocity = Vector3.zero;  
-        rb.angularVelocity = Vector3.zero;  
-        transform.position = initialPosition;  
-        rb.velocity = new Vector3(moveSpeed, 0, 0);
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = initialPosition; 
+        isMoving = false; 
+    }
+
+    public void StartMoving()
+    {
+        isMoving = true;
     }
 }

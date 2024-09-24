@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    public float moveSpeed = 1f; //speed
-    private bool isMoving = false; // not yet move
+    public float moveSpeed = 1f; 
+    private bool isMoving = false; 
 
+    private Jump jumpScript;
 
-    // Start is called before the first frame update
+    void Start()
+    {
+        jumpScript = GetComponent<Jump>();
+    }
 
-    // Update is called once per frame
     void Update()
     {
-        // press start, then move
         if (Input.GetKeyDown(KeyCode.Space))
         {
             isMoving = true;
+            jumpScript.StartMoving();  
         }
 
         if (isMoving)
@@ -27,8 +29,8 @@ public class movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            var component = transform.GetComponent<Rigidbody2D>();
-            component.AddForce(new Vector2(0,10), ForceMode2D.Impulse);
+            var component = GetComponent<Rigidbody2D>();
+            component.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
         }
     }
 }
