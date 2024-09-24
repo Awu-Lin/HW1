@@ -1,62 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class Jump : MonoBehaviour
 {
     public float moveSpeed = 1f;
     public float jumpSpeed = 2f;
-    public Vector3 initialPosition; 
-    public Text failText; 
+    public Vector3 initialPosition;  
+    public Text failText;           
 
-    Vector3 Amount;
-    Rigidbody rb;
+    private Vector3 amount;
+    private Rigidbody rb;
+    private bool isStopped = false;  
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        initialPosition = transform.position; 
-        failText.gameObject.SetActive(false); 
+        initialPosition = transform.position;  
+        failText.gameObject.SetActive(false);  
     }
 
-    // Update is called once per frame
     void Update()
     {
-       
+        if (isStopped)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ResetBall();
+            }
+            return;  
+        }
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-        Amount = moveDirection * moveSpeed * Time.deltaTime;
+        amount = moveDirection * moveSpeed * Time.deltaTime;
 
-        
         if (Input.GetKeyDown(KeyCode.J))
         {
-            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse); 
+            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        rb.MovePosition(rb.position + Amount);
+        if (!isStopped)
+        {
+            rb.MovePosition(rb.position + amount);
+        }
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Obstacle") 
+        if (collision.gameObject.tag == "Obstacle")
         {
-            Fail();
+            StopBall();
         }
     }
 
-    private void Fail()
+    private void StopBall()
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        transform.position = initialPosition;
+        isStopped = true;  
         failText.text = "You failed";
         failText.color = Color.red;
-        failText.fontSize = 64; 
-        failText.gameObject.SetActive(true);
+        failText.fontSize = 64;
+        failText.gameObject.SetActive(true);  
+    }
+
+    private void ResetBall()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = initialPosition;  
+        isStopped = false;  
+        failText.gameObject.SetActive(false); 
     }
 }
