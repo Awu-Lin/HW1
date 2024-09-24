@@ -7,40 +7,41 @@ public class Jump : MonoBehaviour
     public float moveSpeed = 1f;
     public float jumpSpeed = 2f;
     private bool isGround = true;
-    Veator3 Amount;
+    Vector3 Amount;
     Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDirection = new Vector3 (input.GetAxis("Horizontal"),0,input.GetAxis("Vertical")).normalized;
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
         Amount = moveDirection * moveSpeed * Time.deltaTime;
 
-        if (input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             if (isGround)
             {
-                rb.AddForce(Vector3.up * jumpSpeed);
-                isGround = false;
+                rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse); 
+                isGround = false; 
             }
         }
     }
 
-    private void renew()
+    private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + Amnount);
+        rb.MovePosition(rb.position + Amount);
     }
 
-    private void Collision (Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
         {
-            isGround = true;
+            isGround = true; 
         }
     }
 }
