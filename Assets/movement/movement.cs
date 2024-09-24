@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    public float moveSpeed = 1f; 
+    public float moveSpeed = 3f; 
     private bool isMoving = false; 
-
-    private Jump jumpScript;
+    private Rigidbody rb; 
 
     void Start()
     {
-        jumpScript = GetComponent<Jump>();
+        rb = GetComponent<Rigidbody>(); 
     }
 
     void Update()
@@ -19,18 +18,16 @@ public class movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             isMoving = true;
-            jumpScript.StartMoving();  
         }
 
         if (isMoving)
         {
-            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            rb.velocity = new Vector3(moveSpeed, rb.velocity.y, rb.velocity.z); 
         }
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            var component = GetComponent<Rigidbody2D>();
-            component.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+            rb.AddForce(Vector3.up * 10, ForceMode.Impulse);
         }
     }
 }
