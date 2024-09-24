@@ -17,7 +17,7 @@ public class movement : MonoBehaviour
         // press start, then move
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            isMoving = !isMoving;
+            isMoving = true;
         }
 
         if (isMoving)
