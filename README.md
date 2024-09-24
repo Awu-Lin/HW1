@@ -1,5 +1,7 @@
 ***Remember to always turn down the sound when running a project!!!!***
 
+**For the project I used audio material from the open website, which is located at www.aigei.com, which is labeled that I can't use it commercially, but that it can be used for communication and learning**
+
 **Project Overview**
 
 This project is a simple 3D ball control game where the user can control the movement and jumping of the ball via the keyboard. The project includes features such as obstacles, sound triggers and color changes, and is designed to... aims to complete this assignment.
