@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera: MonoBehaviour
+public class CameraFollow : MonoBehaviour
 {
     public Transform player; // transform
     public Vector3 offest; //dis between cube and c
